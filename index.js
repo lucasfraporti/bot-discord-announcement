@@ -11,7 +11,6 @@ const client = new Client({
 });
 
 console.log(`Aplicação: BOT-DISCORD-ANNOUNCEMENT\nDesenvolvedor: Lucas Fraporti\nDiscord: letuga.#0\nGithub: https://github.com/lucasfraporti`);
-
 client.on('ready', async () => {
     console.log(`[${moment().tz(auth.timezone).format("DD/MM/YYYY")} - ${moment().tz(auth.timezone).format("HH:mm:ss")}] ${client.user.tag} configurado e pronto para uso!`);
     const readyEmbed = new EmbedBuilder({
@@ -48,16 +47,6 @@ client.on('interactionCreate', async (interaction) => {
                     customId: 'comunicate',
                     title: 'Comunique os(as) usuários(as)'
                 });
-
-                const date = new TextInputBuilder({
-                    customId: 'date',
-                    label: 'Informe a data do comunicado',
-                    style: TextInputStyle.Short,
-                    required: true,
-                    value: moment().tz(auth.timezone).format("DD/MM/YYYY")
-                });
-
-
                 const channelID = new TextInputBuilder({
                     customId: 'channelID',
                     label: 'Informe o Discord ID do canal',
@@ -65,32 +54,20 @@ client.on('interactionCreate', async (interaction) => {
                     required: true,
                     placeholder: 'Discord ID do canal onde será enviado o comunicado',
                 });
-
-
                 const announcement = new TextInputBuilder({
                     customId: 'announcement',
                     label: 'Digite o comunicado',
                     style: TextInputStyle.Paragraph,
                     required: true
                 });
-
-                const dateInput = new ActionRowBuilder().addComponents(date);
                 const channelIDInput = new ActionRowBuilder().addComponents(channelID);
                 const announcementInput = new ActionRowBuilder().addComponents(announcement);
-                myModal.addComponents(dateInput, channelIDInput, announcementInput);
+                myModal.addComponents(channelIDInput, announcementInput);
                 await interaction.showModal(myModal);
-
-
-
             } else if (interaction.isModalSubmit()) {
-
                 if (interaction.customId === 'comunicate') {
-                    const dateResponse = interaction.fields.getTextInputValue('date');
                     const channelIDResponse = interaction.fields.getTextInputValue('channelID');
                     const announcementResponse = interaction.fields.getTextInputValue('announcement');
-
-
-
                     const isChannelValid = async (x) => {
                         try {
                             const channel = await client.channels.fetch(x);
@@ -120,7 +97,8 @@ client.on('interactionCreate', async (interaction) => {
                                     footer: {
                                         icon_url: 'https://cdn.discordapp.com/avatars/366389243796520980/c6053e358f12e7986a103b87ee29e9b3.png',
                                         text: 'Desenvolvido por letuga.#0',
-                                    }
+                                    },
+                                    timestamp: moment().tz(auth.timezone).format("MM/DD/YYYY HH:mm:ss")
                                 });
                                 await client.channels.cache.get(channelIDResponse).send({ embeds: [successEmbed] });
                                 return true;
