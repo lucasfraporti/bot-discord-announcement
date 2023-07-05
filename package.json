@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "name": "bot-discord-announcement",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "moment-timezone": "^0.5.43"
+  }
+}
